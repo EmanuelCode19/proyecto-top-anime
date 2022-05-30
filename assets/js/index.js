@@ -5,7 +5,7 @@ const load = async(e) => {
 
       const data = await response.json()
 
-        // console.log(data.data)
+        console.log(data.data)
     
         if(response.status === 200){
              data.data.forEach(element => {

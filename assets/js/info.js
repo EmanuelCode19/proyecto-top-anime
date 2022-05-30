@@ -1,35 +1,32 @@
-function getParam(param){
-    const parametro = new URLSearchParams(location.search)
-    return parametro.get(param)
+function getParam(param) {
+  const parametro = new URLSearchParams(location.search);
+  return parametro.get(param);
 }
 
-const detalles = document.querySelector('.info-anime')
+const detalles = document.querySelector(".info-anime");
 
-document.addEventListener('DOMContentLoaded',async() => {
+document.addEventListener("DOMContentLoaded", async () => {
+  const id = getParam("id");
 
-    const id = getParam("id");
+  const response = await fetch(`https://api.jikan.moe/v4/anime/${id}/full`);
 
-    const response = await fetch(`https://api.jikan.moe/v4/anime/${id}/full`)
+  const data = await response.json();
 
-    const data =  await response.json()
+  const infor = data.data;
 
-    const infor = data.data
+  console.log(infor);
 
-    console.log(infor)
-
-    extraer(infor)
-
-
-})
+  extraer(infor);
+});
 
 function extraer(data) {
-    const div = document.createElement('div')
-    
-    const divFlex = document.createElement('div')
-    divFlex.classList.add('flex')
-    const trailer = document.createElement('div')
-    trailer.classList.add('trailer')
-    trailer.innerHTML=`
+  const div = document.createElement("div");
+
+  const divFlex = document.createElement("div");
+  divFlex.classList.add("flex");
+  const trailer = document.createElement("div");
+  trailer.classList.add("trailer");
+  trailer.innerHTML = `
 
 
     <div class="trailer">
@@ -41,10 +38,8 @@ function extraer(data) {
     
     `;
 
-
-    if(data.trailer.embed_url === null){
-       
-    div.innerHTML=`
+  if (data.trailer.embed_url === null) {
+    div.innerHTML = `
     <div class="bloque-flex">
     <div>
     <img class="cover container" src="${data.images.jpg.image_url}" alt="">
@@ -63,8 +58,8 @@ function extraer(data) {
     `;
 
     detalles.appendChild(div);
-    }else{
-        div.innerHTML=`
+  } else {
+    div.innerHTML = `
         <div class="bloque-flex">
         <div>
         <img class="cover container" src="${data.images.jpg.image_url}" alt="">
@@ -82,9 +77,8 @@ function extraer(data) {
         </div>
         `;
 
-    divFlex.appendChild(trailer)
-    div.appendChild(divFlex)
-    detalles.appendChild(div)
-    }
-
+    divFlex.appendChild(trailer);
+    div.appendChild(divFlex);
+    detalles.appendChild(div);
+  }
 }
